@@ -1,0 +1,68 @@
+{% extends 'predictor/base.html' %}
+
+{% block content %}
+<section class="hero-section py-4 py-md-5">
+    <div class="container py-2 py-md-3">
+        <div class="hero-banner p-4 p-md-5">
+            <div class="hero-banner-glow"></div>
+            <div class="hero-banner-content">
+                <div class="badge rounded-pill hero-badge mb-3">Integrated Banana Analysis</div>
+                <h1 class="display-5 fw-bold mb-3">SagingSense</h1>
+                <p class="credit-line mb-3">Created by: Bob Mathew Sunga</p>
+                <p class="lead mb-3">An integrated system for banana ripeness classification and banana leaf disease screening.</p>
+                <div class="d-flex flex-wrap align-items-center gap-2">
+                    <a href="#module-panel" class="btn btn-success rounded-pill px-4">Start Analysis</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="pb-5">
+    <div class="container">
+        <div class="row g-4" id="module-panel">
+            {% for module in modules %}
+                <div class="col-lg-6">
+                    <div class="card border-0 shadow-sm rounded-4 h-100 module-card">
+                        <div class="card-body p-4 p-md-5 d-flex flex-column">
+                            <div class="d-flex align-items-center justify-content-between gap-3 mb-3">
+                                <span class="badge rounded-pill feature-badge">{{ module.badge }}</span>
+                                <span class="status-pill {% if module.model_file_exists %}ok{% else %}warn{% endif %}">
+                                    {% if module.model_file_exists %}Model Ready{% else %}Model Missing{% endif %}
+                                </span>
+                            </div>
+                            <h2 class="h3 fw-bold mb-2">{{ module.display_name }}</h2>
+                            <p class="text-secondary mb-4">{{ module.description }}</p>
+
+                            <div class="module-meta-grid mb-4">
+                                <div class="meta-row">
+                                    <span class="status-label">Best Model</span>
+                                    <span class="status-value">{{ module.best_model_name }}</span>
+                                </div>
+                                <div class="meta-row">
+                                    <span class="status-label">Input Size</span>
+                                    <span class="status-value">{{ module.image_size }} &times; {{ module.image_size }}</span>
+                                </div>
+                                <div class="meta-row">
+                                    <span class="status-label">Asset Folder</span>
+                                    <span class="status-value small">{{ module.asset_dir }}</span>
+                                </div>
+                            </div>
+
+                            <div class="d-flex flex-wrap gap-2 mb-4">
+                                {% for class_name in module.class_names %}
+                                    <span class="class-chip">{{ class_name }}</span>
+                                {% endfor %}
+                            </div>
+
+                            <div class="mt-auto">
+                                <a href="{% url 'predictor:scanner' module.module_key %}" class="btn btn-success rounded-pill px-4">Open {{ module.display_name }}</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}

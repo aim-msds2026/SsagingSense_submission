@@ -1,0 +1,76 @@
+{% extends 'predictor/base.html' %}
+
+{% block content %}
+<section class="hero-section py-4 py-md-5">
+    <div class="container py-2 py-md-3">
+        <div class="hero-banner result-banner p-4 p-md-5">
+            <div class="hero-banner-glow"></div>
+            <div class="hero-banner-content">
+                <div class="badge rounded-pill hero-badge mb-3">Prediction Result</div>
+                <h1 class="display-5 fw-bold mb-3">{{ status.display_name }} Complete</h1>
+                <p class="credit-line mb-3">Created by: Bob Mathew Sunga</p>
+                <p class="lead mb-0">Your uploaded image has been analyzed by the selected SagingSense module.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="pb-5">
+    <div class="container">
+        <div class="row g-4 align-items-stretch">
+            <div class="col-lg-5">
+                <div class="card border-0 shadow-sm rounded-4 h-100">
+                    <div class="card-body p-4 p-md-5">
+                        <h2 class="h4 fw-bold mb-3">Uploaded Image</h2>
+                        <img src="{{ image_url }}" alt="Uploaded image" class="img-fluid preview-image rounded-4 shadow-sm mb-4">
+                        <div class="d-flex flex-wrap gap-2">
+                            <a href="{% url 'predictor:scanner' module_key %}" class="btn btn-outline-success rounded-pill px-4">Analyze Another Image</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-7">
+                <div class="card border-0 shadow-sm rounded-4 h-100">
+                    <div class="card-body p-4 p-md-5">
+                        <h2 class="h4 fw-bold mb-4">Prediction Details</h2>
+
+                        <div class="result-highlight mb-4">
+                            <div class="result-label">Predicted Class</div>
+                            <div class="result-value">{{ prediction.predicted_class }}</div>
+                            <div class="result-confidence">Confidence: {{ prediction.confidence|floatformat:4 }}</div>
+                        </div>
+
+                        <div class="mb-4">
+                            <h3 class="h6 fw-bold mb-3">Recommendation</h3>
+                            <div class="recommendation-card rounded-4 p-3">
+                                {{ prediction.recommendation }}
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <h3 class="h6 fw-bold mb-3">Class Probabilities</h3>
+                            {% for class_name, score in probabilities %}
+                                <div class="mb-3">
+                                    <div class="d-flex justify-content-between small mb-1">
+                                        <span class="fw-semibold">{{ class_name }}</span>
+                                        <span>{{ score|floatformat:4 }}</span>
+                                    </div>
+                                    <div class="progress probability-bar" role="progressbar" aria-label="Probability for {{ class_name }}" aria-valuenow="{{ score|floatformat:2 }}" aria-valuemin="0" aria-valuemax="1">
+                                        <div class="progress-bar" style="width: {% widthratio score 1 100 %}%;"></div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+
+                        <div class="model-meta small text-secondary">
+                            <div><span class="fw-semibold">Best Model:</span> {{ status.best_model_name }}</div>
+                            <div><span class="fw-semibold">Input Size:</span> {{ status.image_size }} &times; {{ status.image_size }}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

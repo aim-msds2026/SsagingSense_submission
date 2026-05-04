@@ -1,0 +1,17 @@
+{
+    "project_title": "SagingSense PH: Banana Leaf Disease Classification Using Convolutional Neural Networks_1",
+    "model_name": "Banana_Leaf_Disease_CNN_1",
+    "image_size": 224,
+    "number_of_classes": 7,
+    "class_names": [
+        "Banana Black Sigatoka Disease",
+        "Banana Bract Mosaic Virus Disease",
+        "Banana Healthy Leaf",
+        "Banana Insect Pest Disease",
+        "Banana Moko Disease",
+        "Banana Panama Disease",
+        "Banana Yellow Sigatoka Disease"
+    ],
+    "created_at": "2026-04-24 19:30:01",
+    "test_accuracy": 0.9607843160629272
+}

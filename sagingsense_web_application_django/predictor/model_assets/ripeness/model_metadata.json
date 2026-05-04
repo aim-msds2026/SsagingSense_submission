@@ -1,0 +1,17 @@
+{
+    "project_title": "SagingSense: A Convolutional Neural Network-Based Banana Ripeness Classification System for Fruit Quality Assessment",
+    "best_model_name": "Improved CNN",
+    "image_size": 224,
+    "number_of_classes": 4,
+    "class_names": [
+        "overripe",
+        "ripe",
+        "rotten",
+        "unripe"
+    ],
+    "created_at": "2026-04-24 11:18:09",
+    "test_accuracy": 0.9822,
+    "weighted_precision": 0.9824,
+    "weighted_recall": 0.9822,
+    "weighted_f1_score": 0.9822
+}

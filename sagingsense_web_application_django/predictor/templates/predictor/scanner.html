@@ -1,0 +1,131 @@
+{% extends 'predictor/base.html' %}
+
+{% block content %}
+<section class="hero-section py-4 py-md-5">
+    <div class="container py-2 py-md-3">
+        <div class="hero-banner p-4 p-md-5">
+            <div class="hero-banner-glow"></div>
+            <div class="hero-banner-content">
+                <div class="badge rounded-pill hero-badge mb-3">{{ status.badge }}</div>
+                <h1 class="display-5 fw-bold mb-3">{{ status.display_name }}</h1>
+                <p class="credit-line mb-3">Created by: Bob Mathew Sunga</p>
+                <p class="lead mb-3">{{ status.description }}</p>
+                <div class="d-flex flex-wrap align-items-center gap-2">
+                    <a href="#upload-image-panel" class="btn btn-success rounded-pill px-4">Start Analysis</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="pb-5">
+    <div class="container">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        <div class="row g-4 align-items-stretch">
+            <div class="col-lg-7" id="upload-image-panel">
+                <div class="card border-0 shadow-sm h-100 rounded-4">
+                    <div class="card-body p-4 p-md-5">
+                        <h2 class="h4 fw-bold mb-3">Upload Image</h2>
+                        <p class="text-secondary mb-4">{{ status.upload_prompt }}</p>
+
+                        <form method="post" action="{% url 'predictor:predict_module' module_key %}" enctype="multipart/form-data" novalidate>
+                            {% csrf_token %}
+                            <div class="mb-3">
+                                <label class="form-label fw-semibold" for="id_image">Image File</label>
+                                {{ form.image }}
+                                {% if form.image.help_text %}
+                                    <div class="form-text">{{ form.image.help_text }}</div>
+                                {% endif %}
+                                {% if form.image.errors %}
+                                    <div class="text-danger small mt-2">{{ form.image.errors|striptags }}</div>
+                                {% endif %}
+                            </div>
+
+                            <div class="d-flex flex-wrap gap-3 mt-4">
+                                <button type="submit" class="btn btn-success rounded-pill px-4">Run {{ status.display_name }}</button>
+                            </div>
+                        </form>
+
+                        {% if uploaded_preview_url %}
+                            <div class="mt-4">
+                                <h3 class="h6 fw-bold mb-3">Uploaded Preview</h3>
+                                <img src="{{ uploaded_preview_url }}" alt="Uploaded preview" class="img-fluid preview-image rounded-4 shadow-sm">
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-5">
+                <div class="card border-0 shadow-sm rounded-4 h-100">
+                    <div class="card-body p-4 p-md-5">
+                        <h2 class="h4 fw-bold mb-4">Model Status</h2>
+
+                        <div class="status-grid">
+                            <div class="status-item">
+                                <span class="status-label">Model File</span>
+                                <span class="status-pill {% if status.model_file_exists %}ok{% else %}warn{% endif %}">
+                                    {% if status.model_file_exists %}Ready{% else %}Missing{% endif %}
+                                </span>
+                            </div>
+                            <div class="status-item">
+                                <span class="status-label">Labels File</span>
+                                <span class="status-pill {% if status.labels_file_exists %}ok{% else %}warn{% endif %}">
+                                    {% if status.labels_file_exists %}Ready{% else %}Fallback{% endif %}
+                                </span>
+                            </div>
+                            <div class="status-item">
+                                <span class="status-label">Metadata File</span>
+                                <span class="status-pill {% if status.metadata_file_exists %}ok{% else %}warn{% endif %}">
+                                    {% if status.metadata_file_exists %}Ready{% else %}Fallback{% endif %}
+                                </span>
+                            </div>
+                            <div class="status-item">
+                                <span class="status-label">Best Model Name</span>
+                                <span class="status-value">{{ status.best_model_name }}</span>
+                            </div>
+                            <div class="status-item">
+                                <span class="status-label">Input Image Size</span>
+                                <span class="status-value">{{ status.image_size }} &times; {{ status.image_size }}</span>
+                            </div>
+                            <div class="status-item align-items-start flex-column">
+                                <span class="status-label mb-2">Classes</span>
+                                <div class="d-flex flex-wrap gap-2">
+                                    {% for class_name in status.class_names %}
+                                        <span class="class-chip">{{ class_name }}</span>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr class="my-4">
+
+                        <h3 class="h6 fw-bold mb-3">Required Files</h3>
+                        <div class="small text-secondary mb-2"><code>{{ status.asset_dir }}/</code></div>
+                        <ol class="small text-secondary ps-3 mb-0">
+                            <li><code>{{ status.model_filename }}</code></li>
+                            <li><code>class_labels.json</code></li>
+                            <li><code>model_metadata.json</code></li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% if setup_error %}
+            <div class="alert alert-danger mt-4 rounded-4 shadow-sm" role="alert">
+                <div class="fw-bold mb-1">Prediction Setup Issue</div>
+                <div>{{ setup_error }}</div>
+            </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

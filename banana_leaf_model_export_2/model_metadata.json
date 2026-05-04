@@ -1,0 +1,24 @@
+{
+    "project_title": "SagingSense PH: Banana Leaf Disease Classification Using Convolutional Neural Networks_2",
+    "best_model_name": "MobileNetV2 Transfer Learning",
+    "train_variant": "augmented",
+    "eval_variant": "original",
+    "training_data_folder": "kaggle\\input\\banana-disease-recognition-dataset\\Augmented images\\Augmented images",
+    "evaluation_data_folder": "kaggle\\input\\banana-disease-recognition-dataset\\Original Images\\Original Images",
+    "image_size": 224,
+    "number_of_classes": 7,
+    "class_names": [
+        "Banana Black Sigatoka Disease",
+        "Banana Bract Mosaic Virus Disease",
+        "Banana Healthy Leaf",
+        "Banana Insect Pest Disease",
+        "Banana Moko Disease",
+        "Banana Panama Disease",
+        "Banana Yellow Sigatoka Disease"
+    ],
+    "created_at": "2026-04-24 20:58:44",
+    "test_accuracy": 0.9853,
+    "weighted_precision": 0.9865,
+    "weighted_recall": 0.9853,
+    "weighted_f1_score": 0.9853
+}

@@ -1,0 +1,5 @@
+Model,Test Loss,Test Accuracy,Weighted Precision,Weighted Recall,Weighted F1-Score,Correct Predictions,Wrong Predictions,Total Test Images
+Improved CNN,0.0459,0.9822,0.9824,0.9822,0.9822,552,10,562
+EfficientNetB0 Transfer Learning,0.0538,0.9769,0.9778,0.9769,0.9767,549,13,562
+MobileNetV2 Transfer Learning,0.0866,0.9662,0.9666,0.9662,0.9661,543,19,562
+Baseline CNN,0.1469,0.9591,0.9592,0.9591,0.9591,539,23,562

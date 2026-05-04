@@ -1,0 +1,4 @@
+2026-04-24 21:11:40.549842: I tensorflow/core/util/port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+2026-04-24 21:11:41.529352: I tensorflow/core/util/port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+[24/Apr/2026 21:11:45] "GET / HTTP/1.1" 200 9414
+[24/Apr/2026 21:11:45,713] - Broken pipe from ('127.0.0.1', 63415)
